@@ -1,0 +1,4 @@
+quarkus:
+  datasource:
+    jdbc:
+      url: jdbc:postgresql://db:5432/workflow

@@ -1,0 +1,7 @@
+quarkus:
+  devservices:
+    enabled: true
+
+  datasource:
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/workflow
