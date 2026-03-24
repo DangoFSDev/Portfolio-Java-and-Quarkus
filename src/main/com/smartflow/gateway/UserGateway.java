@@ -1,12 +1,19 @@
 package main.com.smartflow.gateway;
 
-import main.com.smartflow.model.dto.LoginUser;
 import main.com.smartflow.model.dto.User;
 
 public interface UserGateway {
 
-    User validateUserCredentials(LoginUser dto);
+    User validateUserCredentials(User dto);
 
     User saveUser(User dto);
+
+    String deleteUser(Long id);
+
+    User findUserById(Long id);
+
+    User findUserByUsername(String username);
+
+    User findUserByDTO(User dto);
 
 }

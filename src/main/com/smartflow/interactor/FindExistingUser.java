@@ -8,4 +8,6 @@ public interface FindExistingUser {
 
     User execute(String username);
 
+    User execute(Long id);
+
 }

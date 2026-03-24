@@ -1,15 +1,12 @@
 package main.com.smartflow.service;
 
 import main.com.smartflow.interactor.AddUser;
+import main.com.smartflow.interactor.DeleteUser;
 import main.com.smartflow.interactor.UpdateUser;
 import main.com.smartflow.interactor.ValidateUserCredentials;
-import main.com.smartflow.mapper.LoginMapper;
 import main.com.smartflow.mapper.UserMapper;
-import main.com.smartflow.model.dto.LoginUser;
 import main.com.smartflow.model.dto.User;
-import main.com.smartflow.request.LoginRequest;
 import main.com.smartflow.request.UserRequest;
-import main.com.smartflow.response.LoginResponse;
 import main.com.smartflow.response.UserResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -18,14 +15,14 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final AddUser addUser;
-    private final LoginMapper loginMapper;
+    private final DeleteUser deleteUser;
     private final UserMapper userMapper;
     private final UpdateUser updateUser;
     private final ValidateUserCredentials validateUserCredentials;
 
-    public LoginResponse userLogin(LoginRequest request) {
+    public UserResponse userLogin(UserRequest request) {
 
-        LoginUser dto = loginMapper.toDTO(request);
+        User dto = userMapper.toDTO(request);
 
         return validateUserCredentials.execute(dto);
     }
@@ -40,6 +37,11 @@ public class UserService {
 
         User dto = userMapper.toDTO(request);
         return userMapper.toUserResponse(updateUser.execute(dto));
+    }
+
+    public UserResponse deleteUser(Long id) {
+
+        return userMapper.toUserResponse(deleteUser.execute(id));
     }
 
 }

@@ -1,10 +1,8 @@
 package main.com.smartflow.mapper;
 
-import main.com.smartflow.model.dto.LoginUser;
 import main.com.smartflow.model.dto.User;
 import main.com.smartflow.model.entity.UserEntity;
 import main.com.smartflow.request.UserRequest;
-import main.com.smartflow.response.LoginResponse;
 import main.com.smartflow.response.UserResponse;
 
 import org.mapstruct.Mapper;
@@ -19,15 +17,18 @@ public interface UserMapper {
 
     UserEntity toEntity(User dto);
 
-    UserEntity toEntity(LoginUser dto);
-
     User toDTO(UserEntity entity);
 
     User toDTO(UserRequest request);
 
-    LoginResponse toResponse(User dto);
-
     UserResponse toUserResponse(User dto);
+
+    default UserResponse toUserResponse(String message) {
+
+        UserResponse response = new UserResponse();
+        response.setMessage(message);
+        return response;
+    }
 
     @Mapping(target = "userId", ignore = true)
     @Mapping(target = "createDate", ignore = true)

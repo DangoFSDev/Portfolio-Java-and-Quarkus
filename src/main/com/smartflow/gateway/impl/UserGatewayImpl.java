@@ -5,7 +5,6 @@ import jakarta.ws.rs.NotFoundException;
 
 import main.com.smartflow.gateway.UserGateway;
 import main.com.smartflow.mapper.UserMapper;
-import main.com.smartflow.model.dto.LoginUser;
 import main.com.smartflow.model.dto.User;
 import main.com.smartflow.model.entity.UserEntity;
 import main.com.smartflow.repository.UserRepository;
@@ -21,7 +20,7 @@ public class UserGatewayImpl implements UserGateway {
     private final UserMapper userMapper;
 
     @Override
-    public User validateUserCredentials(LoginUser dto) {
+    public User validateUserCredentials(User dto) {
 
         try {
             loggerUtil.debugLog("Validating user credentials for user: " + dto.getUserName());
@@ -59,6 +58,68 @@ public class UserGatewayImpl implements UserGateway {
             loggerUtil.errorLog("Error finding existing user: " + e.getMessage(), e, null, null, dto.toString(),
                                 null);
             throw new BadRequestException(e);
+        }
+    }
+
+    @Override
+    public String deleteUser(Long id) {
+
+        try {
+            loggerUtil.debugLog("Deleting user with id: " + id);
+
+            userRepository.deleteById(id);
+
+            return "User with id " + id + " deleted successfully.";
+        } catch (Exception e) {
+            loggerUtil.errorLog("Error deleting user: " + e.getMessage(), e, null, null, "User ID: " + id, null);
+            throw new NotFoundException(e);
+        }
+    }
+
+    @Override
+    public User findUserById(Long id) {
+
+        try {
+            loggerUtil.debugLog("Finding user with id: " + id);
+
+            UserEntity entity = userRepository.findById(id);
+
+            return userMapper.toDTO(entity);
+        } catch (Exception e) {
+            loggerUtil.errorLog("Error finding user: " + e.getMessage(), e, null, null, "User ID: " + id, null);
+            throw new NotFoundException(e);
+        }
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+
+        try {
+            loggerUtil.debugLog("Finding user with username: " + username);
+
+            UserEntity entity = userRepository.findUserName(username);
+
+            return userMapper.toDTO(entity);
+        } catch (Exception e) {
+            loggerUtil.errorLog("Error finding user: " + e.getMessage(), e, null, null, "Username: " + username, null);
+            throw new NotFoundException(e);
+        }
+    }
+
+    @Override
+    public User findUserByDTO(User dto) {
+
+        try {
+            loggerUtil.debugLog("Finding user with DTO: " + dto.toString());
+
+            UserEntity entity = userMapper.toEntity(dto);
+            UserEntity foundEntity = userRepository.findUserNameAndUserPass(entity);
+
+            return userMapper.toDTO(foundEntity);
+        } catch (Exception e) {
+            loggerUtil.errorLog("Error finding user: " + e.getMessage(), e, null, null, "User DTO: " + dto.toString(),
+                                null);
+            throw new NotFoundException(e);
         }
     }
 
