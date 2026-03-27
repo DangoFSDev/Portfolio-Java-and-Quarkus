@@ -6,7 +6,7 @@ public class UserRepository implements BaseRepository<UserEntity> {
 
     public UserEntity findUserNameAndUserPass(UserEntity entity) {
 
-        return (UserEntity) find("userName = ?1 AND userPass = ?2", entity.getUserName(), entity.getUserPass());
+        return (UserEntity) find("userName = ?1 AND userPass = ?2", entity.getUserName(), entity.getPasswordHash());
     }
 
     public UserEntity findUserName(String userName) {

@@ -42,6 +42,6 @@ public class UserEntity extends BaseTimestampedEntity implements BaseEntity {
     private String userName;
 
     @Column(name = "password_hash", nullable = false)
-    private String password_hash;
+    private String passwordHash;
 
 }

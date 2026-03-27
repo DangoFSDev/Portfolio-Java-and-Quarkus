@@ -1,7 +1,10 @@
 package com.smartflow.controller;
 
+import java.util.List;
+
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -12,7 +15,6 @@ import jakarta.ws.rs.core.MediaType;
 import com.smartflow.request.UserRequest;
 import com.smartflow.response.UserResponse;
 import com.smartflow.service.UserService;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -22,6 +24,14 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
     private final UserService service;
+
+    @GET
+    @Path("/")
+    public List<UserResponse> getAllUsers() {
+
+        return List.of();//service.getAllUsers();
+    }
+
 
     @POST
     @Path("/login")
