@@ -6,6 +6,10 @@ public class StringUtil {
 
     private static final Pattern SIXTEEN_DIGITS = Pattern.compile("(?<!\\d)(\\d{12})(\\d{4})(?!\\d)");
 
+    private StringUtil() {
+        // Private constructor to prevent instantiation
+    }
+
     public static String nullToEmpty(String str) {
 
         return str == null ? "" : str;

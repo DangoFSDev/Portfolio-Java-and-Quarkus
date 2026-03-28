@@ -1,10 +1,11 @@
 package com.smartflow.mapper;
 
+import java.util.List;
+
 import com.smartflow.model.dto.User;
 import com.smartflow.model.entity.UserEntity;
 import com.smartflow.request.UserRequest;
 import com.smartflow.response.UserResponse;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -22,6 +23,10 @@ public interface UserMapper {
     User toDTO(UserRequest request);
 
     UserResponse toUserResponse(User dto);
+
+    List<User> toDTOs(List<UserEntity> entities);
+
+    List<UserResponse> toUserResponseList(List<User> dtos);
 
     default UserResponse toUserResponse(String message) {
 

@@ -4,11 +4,9 @@ import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import main.com.smartflow.domain.model.dto.User;
-import main.com.smartflow.infrastructure.client.UserGateway;
-
+import com.smartflow.gateway.UserGateway;
 import com.smartflow.interactor.GetUsers;
-
+import com.smartflow.model.dto.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -20,7 +18,7 @@ public class GetUsersImpl implements GetUsers {
     @Override
     public List<User> execute() {
 
-        return userGateway.getUsers();
+        return userGateway.getAllUsers();
     }
 
 }

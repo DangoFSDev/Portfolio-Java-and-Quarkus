@@ -3,7 +3,6 @@ package com.smartflow.interactor.impl;
 import com.smartflow.gateway.UserGateway;
 import com.smartflow.interactor.FindExistingUser;
 import com.smartflow.model.dto.User;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -14,19 +13,19 @@ public class FindExistingUserImpl implements FindExistingUser {
     @Override
     public User execute(User dto) {
 
-        return null;
+        return userGateway.findUserByDTO(dto);
     }
 
     @Override
     public User execute(String username) {
 
-        return null;
+        return userGateway.findUserByUsername(username);
     }
 
     @Override
     public User execute(Long id) {
 
-        return null;
+        return userGateway.findUserById(id);
     }
 
 }

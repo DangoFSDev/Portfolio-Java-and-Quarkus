@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import com.smartflow.model.BaseModel;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,18 +13,18 @@ import lombok.Setter;
 @Setter
 public class UserRequest extends BaseModel {
 
-    public Long userId;
-    public String firstName;
-    public String lastName;
-    public String address;
-    public Byte status;
+    private Long userId;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private Byte status;
 
     @NotNull(message = "Username cannot be null")
     @NotBlank(message = "Username cannot be blank")
-    public String userName;
+    private String userName;
 
     @NotNull(message = "Password cannot be null")
     @NotBlank(message = "Password cannot be blank")
-    public String userPass;
+    private String userPass;
 
 }

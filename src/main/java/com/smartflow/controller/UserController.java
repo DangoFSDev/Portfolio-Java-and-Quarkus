@@ -29,7 +29,7 @@ public class UserController {
     @Path("/")
     public List<UserResponse> getAllUsers() {
 
-        return List.of();//service.getAllUsers();
+        return service.getAllUsers();
     }
 
 

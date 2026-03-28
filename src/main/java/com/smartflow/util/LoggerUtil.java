@@ -18,38 +18,42 @@ import static com.smartflow.util.StringUtil.nullToEmpty;
 @Setter
 public class LoggerUtil {
 
+    private static final String SYSTEM = "SYSTEM=%s";
+    private static final String TYPE = "TYPE=%s_LOG";
+    private static final String DATE = "DATE=%s";
+    private static final String USER_ID = "USER_ID=%s";
+    private static final String API_CODE = "API_CODE=%s";
+    private static final String HTTP_METHOD = "HTTP_METHOD=%s";
+    private static final String URL = "URL=%s";
+    private static final String HTTP_CODE = "HTTP_CODE=%s";
+    private static final String REQUEST = "REQUEST=%s";
+    private static final String RESPONSE = "RESPONSE=%s";
+    private static final String PLATFORM = "PLATFORM=%s";
+    private static final String METHOD = "METHOD=%s";
+    private static final String MESSAGE = "MESSAGE=%s";
+    private static final String DELIMITER = " | ";
     private final StackWalker stackWalker = StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE);
-    private final String SYSTEM = "SYSTEM=%s";
-    private final String TYPE = "TYPE=%s_LOG";
-    private final String DATE = "DATE=%s";
-    private final String USER_ID = "USER_ID=%s";
-    private final String API_CODE = "API_CODE=%s";
-    private final String HTTP_METHOD = "HTTP_METHOD=%s";
-    private final String URL = "URL=%s";
-    private final String HTTP_CODE = "HTTP_CODE=%s";
-    private final String REQUEST = "REQUEST=%s";
-    private final String RESPONSE = "RESPONSE=%s";
-    private final String PLATFORM = "PLATFORM=%s";
-    private final String METHOD = "METHOD=%s";
-    private final String MESSAGE = "MESSAGE=%s";
-    private final String DELIMITER = " | ";
+
     @ConfigProperty(name = "dependency.logging.enabled", defaultValue = "true")
     private boolean enabledLogging;
+
     @ConfigProperty(name = "dependency.logging.detailed", defaultValue = "true")
     private boolean detailedLogging;
+
     @ConfigProperty(name = "dependency.logging.response.max-chars", defaultValue = "10000")
     private int responseMaxChars;
+
     private String userId;
     private String httpMethod;
-    private String url;
-    private String platform;
+    private String urlStr;
+    private String platformStr;
 
     public LoggerUtil() {
 
         this.userId = "";
         this.httpMethod = "";
-        this.url = "";
-        this.platform = "";
+        this.urlStr = "";
+        this.platformStr = "";
         this.detailedLogging = true;
         this.responseMaxChars = 10000;
     }
@@ -94,7 +98,7 @@ public class LoggerUtil {
         }
 
         String methodName = getClassAndMethod();
-        String maskedUrl = mask16Digits(nullToEmpty(url));
+        String maskedUrl = mask16Digits(nullToEmpty(urlStr));
         String maskedRequest = mask16Digits(nullToEmpty(request));
         String maskedResponse = mask16Digits(nullToEmpty(response));
         String formattedResponse = formatResponse(maskedResponse);
@@ -102,7 +106,7 @@ public class LoggerUtil {
         String logMessage = String.format(messageTemplate(), "SmartFlow MS", logLevel, Instant.now(),
                                           nullToEmpty(userId), nullToEmpty(apiCode), nullToEmpty(httpMethod), maskedUrl,
                                           httpCode, maskedRequest, formattedResponse,
-                                          nullToEmpty(platform), methodName, message);
+                                          nullToEmpty(platformStr), methodName, message);
 
         if (isEmpty(userId)) {
             logMessage = logMessage.replace(String.format(DELIMITER + USER_ID, nullToEmpty(userId)), "");
@@ -126,8 +130,8 @@ public class LoggerUtil {
         if (isEmpty(formattedResponse)) {
             logMessage = logMessage.replace(String.format(DELIMITER + REQUEST, nullToEmpty(formattedResponse)), "");
         }
-        if (isEmpty(platform)) {
-            logMessage = logMessage.replace(String.format(DELIMITER + REQUEST, nullToEmpty(platform)), "");
+        if (isEmpty(platformStr)) {
+            logMessage = logMessage.replace(String.format(DELIMITER + REQUEST, nullToEmpty(platformStr)), "");
         }
 
         return logMessage;

@@ -8,4 +8,8 @@ public class HeaderConstants {
     public static final String PLATFORM = "platform";
     public static final String VERSION = "version";
 
+    private HeaderConstants() {
+        // Private constructor to prevent instantiation
+    }
+
 }

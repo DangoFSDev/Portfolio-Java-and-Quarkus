@@ -1,5 +1,7 @@
 package com.smartflow.gateway;
 
+import java.util.List;
+
 import com.smartflow.model.dto.User;
 
 public interface UserGateway {
@@ -15,5 +17,7 @@ public interface UserGateway {
     User findUserByUsername(String username);
 
     User findUserByDTO(User dto);
+
+    List<User> getAllUsers();
 
 }

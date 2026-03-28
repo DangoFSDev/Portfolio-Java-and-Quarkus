@@ -1,5 +1,7 @@
 package com.smartflow.gateway.impl;
 
+import java.util.List;
+
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 
@@ -9,12 +11,12 @@ import com.smartflow.model.dto.User;
 import com.smartflow.model.entity.UserEntity;
 import com.smartflow.repository.UserRepository;
 import com.smartflow.util.LoggerUtil;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class UserGatewayImpl implements UserGateway {
 
+    private static final String ERROR_MESSAGE_PREFIX = "Error finding user: ";
     private final LoggerUtil loggerUtil;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -86,7 +88,7 @@ public class UserGatewayImpl implements UserGateway {
 
             return userMapper.toDTO(entity);
         } catch (Exception e) {
-            loggerUtil.errorLog("Error finding user: " + e.getMessage(), e, null, null, "User ID: " + id, null);
+            loggerUtil.errorLog(ERROR_MESSAGE_PREFIX + e.getMessage(), e, null, null, "User ID: " + id, null);
             throw new NotFoundException(e);
         }
     }
@@ -101,7 +103,7 @@ public class UserGatewayImpl implements UserGateway {
 
             return userMapper.toDTO(entity);
         } catch (Exception e) {
-            loggerUtil.errorLog("Error finding user: " + e.getMessage(), e, null, null, "Username: " + username, null);
+            loggerUtil.errorLog(ERROR_MESSAGE_PREFIX + e.getMessage(), e, null, null, "Username: " + username, null);
             throw new NotFoundException(e);
         }
     }
@@ -117,10 +119,17 @@ public class UserGatewayImpl implements UserGateway {
 
             return userMapper.toDTO(foundEntity);
         } catch (Exception e) {
-            loggerUtil.errorLog("Error finding user: " + e.getMessage(), e, null, null, "User DTO: " + dto.toString(),
+            loggerUtil.errorLog(ERROR_MESSAGE_PREFIX + e.getMessage(), e, null, null, "User DTO: " + dto.toString(),
                                 null);
             throw new NotFoundException(e);
         }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+
+        List<UserEntity> entities = userRepository.listAll();
+        return userMapper.toDTOs(entities);
     }
 
 }

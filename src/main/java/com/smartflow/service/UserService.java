@@ -1,14 +1,16 @@
 package com.smartflow.service;
 
+import java.util.List;
+
 import com.smartflow.interactor.AddUser;
 import com.smartflow.interactor.DeleteUser;
+import com.smartflow.interactor.GetUsers;
 import com.smartflow.interactor.UpdateUser;
 import com.smartflow.interactor.ValidateUserCredentials;
 import com.smartflow.mapper.UserMapper;
 import com.smartflow.model.dto.User;
 import com.smartflow.request.UserRequest;
 import com.smartflow.response.UserResponse;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -16,6 +18,7 @@ public class UserService {
 
     private final AddUser addUser;
     private final DeleteUser deleteUser;
+    private final GetUsers getUsers;
     private final UserMapper userMapper;
     private final UpdateUser updateUser;
     private final ValidateUserCredentials validateUserCredentials;
@@ -42,6 +45,11 @@ public class UserService {
     public UserResponse deleteUser(Long id) {
 
         return userMapper.toUserResponse(deleteUser.execute(id));
+    }
+
+    public List<UserResponse> getAllUsers() {
+
+        return userMapper.toUserResponseList(getUsers.execute());
     }
 
 }
